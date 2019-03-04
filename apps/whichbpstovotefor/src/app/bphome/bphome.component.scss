@@ -1,0 +1,50 @@
+// BP Home Component Style Overrides
+
+.home-container {
+    grid-template-rows: 0.5fr 0.5fr 0.5fr 1fr 1fr;
+}
+
+.header-center {
+    grid-column-end: span 1;
+}
+
+.header-button {
+    grid-column-start: 3;
+}
+
+.main-button, .main-button-loader {
+    grid-row-start: 5;
+}
+
+.login-error {
+    grid-row-start: 6;
+    grid-column-start: 2;
+    margin-bottom: 30px;
+    text-align: center;
+    justify-self: center;
+    align-self: end;
+    color: red;
+    font-size: 14px;
+}
+
+@media (max-width: 532px) {
+    .home-container {
+        grid-template-rows: 0.5fr 1fr auto 1fr auto;
+    }
+
+    .home-title {
+        grid-row-start: 2;
+    }
+
+    .home-desc {
+        grid-row-start: 3;
+    }
+    
+    .main-button, .main-button-loader {
+        grid-row-start: 4;
+    }
+
+    .login-error {
+        grid-row-start: 5;
+      }
+}

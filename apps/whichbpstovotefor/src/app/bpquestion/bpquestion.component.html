@@ -1,0 +1,46 @@
+<div class="question-container">
+
+  <div class="header-center">WHICH BLOCK PRODUCER TO VOTE FOR</div>
+  <div class="header-button" (click)="logout()">Logout</div>
+
+  <p class="sub-title">
+    Welcome {{ username }}!
+  </p>
+  <p id="sub-title-content">Submit your responses below. Once you submit, Scatter will open two simultaneous
+    windows for you to allow two separate vote transactions. Only responses from eligible Block Producers will be
+    counted towards the survey. You must also answer all questions or your votes will be ignored.</p>
+
+  <ul class="question-list" *ngIf="!isDataLoading">
+    <li class="collapsible" *ngFor="let q of questionList; let i = index">
+      <div class="question">
+        <i class="fal fa-angle-right" (click)="hidden[i] = !hidden[i]" *ngIf="!hidden[i]"></i>
+        <i class="fal fa-angle-down" (click)="hidden[i] = !hidden[i]" *ngIf="hidden[i]"></i>
+        <p class="question-name" (click)="hidden[i] = !hidden[i]">{{ q.title }}</p>
+
+        <div class="response-button-group">
+          <button #yes class="response-button lpr" [class.active]="currentResponse[q.name] == yes.value" value="1"
+            (click)="onResponseSelected(q.name, yes.value, i)">YES</button>
+          <button #no class="response-button" [class.active]="currentResponse[q.name] == no.value" value="0" (click)="onResponseSelected(q.name, no.value, i)">NO</button>
+          <button #notsure class="response-button rpr" [class.active]="currentResponse[q.name] == notsure.value" value="255"
+            (click)="onResponseSelected(q.name, notsure.value, i)">NOT SURE</button>
+        </div>
+      </div>
+      <div class="question-details" [innerHTML]="q.content" *ngIf="hidden[i]"></div>
+    </li>
+  </ul>
+
+  <div class="question-list-loader" *ngIf="isDataLoading">
+    <span><i class="fas fa-spinner loader"></i></span>
+  </div>
+
+  <button class="main-button" *ngIf="!isLoading && !isDataLoading" (click)="submitResponses()">
+    <span>SUBMIT RESPONSES</span>
+  </button>
+
+  <button class="main-button-loader" *ngIf="isLoading">
+    <span><i class="far fa-spinner loader"></i></span>
+  </button>
+
+  <span class="submit-message" *ngIf="error || success" [ngClass]="{'error': error, 'success': success}">{{ message }}</span>
+
+</div>

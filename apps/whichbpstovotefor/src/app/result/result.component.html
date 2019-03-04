@@ -1,0 +1,33 @@
+<div class="header-center"><a [href]="['/']">WHICH BLOCK PRODUCER TO VOTE FOR</a></div>
+
+<div class="result-container">
+
+  <p class="sub-title">
+    Your match scores:
+  </p>
+
+  <button id="restart-button" (click)="startOver()">START OVER</button>
+
+  <div class="result-list-loader" *ngIf="isDataLoading">
+    <span><i class="fas fa-spinner loader"></i></span>
+  </div>
+
+  <table id="result-table">
+    <tr class="result-item" *ngFor="let result of results">
+      <td class="result-name">{{ result.name }}</td>
+      <td class="result-score">
+        <div #div class="score-bar">
+          <div class="score-amount-100" *ngIf="result.match_score == 100">
+            <span class="match">{{ result.match_score }}%</span>
+          </div>
+          <div class="score-amount" [style.width.px]="(result.match_score/100)*div.offsetWidth"
+            *ngIf="result.match_score != 100"></div>
+          <span class="match" *ngIf="result.match_score != 100">{{ result.match_score }}%</span>
+        </div>
+      </td>
+      <td class="result-link-td"><a class="result-link" [href]="result.url" target="_blank">Visit<i
+            class="far fa-chevron-right result-chev"></i></a></td>
+    </tr>
+  </table>
+
+</div>

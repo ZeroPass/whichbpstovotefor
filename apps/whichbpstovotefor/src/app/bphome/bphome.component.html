@@ -1,0 +1,30 @@
+<div class="home-container">
+
+  <div class="header-center"><a [href]="['/']">WHICH BLOCK PRODUCERS TO VOTE FOR</a></div>
+
+  <div class="header-button" (click)="goToHome()">Back to Survey</div>
+
+  <h2 class="home-title">ARE YOU A BLOCK PRODUCER CANDIDATE?</h2>
+  <span class="home-desc">We’ve created this portal to help you submit your responses to the
+    issues that matter the most. Sign in and submit your responses.
+    <br><br>
+    <span style="font-size: 12px">
+      <strong>Note:</strong> If you are not an eligible Block Producer and you sign in below, any
+      responses you submit will be disregarded.
+    </span>
+  </span>
+
+  <button class="main-button" *ngIf="!isLoading" (click)="login()">
+    <span>LOGIN WITH SCATTER</span>
+  </button>
+
+  <button class="main-button-loader" *ngIf="isLoading">
+    <span><i class="far fa-spinner loader"></i></span>
+  </button>
+
+  <span class="login-error" *ngIf="loginError">Unable to login with <a class="link"
+      href="https://get-scatter.com/">Scatter</a>.
+    Make sure you have <a class="link" href="https://get-scatter.com/">Scatter</a> downloaded and you are logged in to
+    the app.</span>
+
+</div>

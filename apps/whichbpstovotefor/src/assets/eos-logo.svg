@@ -1,0 +1,9 @@
+<svg width="56px" height="83px" viewBox="0 0 56 83" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Welcome" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="start-state" transform="translate(-484.000000, -155.000000)" fill="#7A8EE9" fill-rule="nonzero">
+            <g id="Eosio_logo" transform="translate(484.000000, 155.000000)">
+                <path d="M28,0 L8.34782609,26.8020833 L0,66.2270833 L28,83 L56,66.2270833 L47.6521739,26.6291667 L28,0 Z M12.8695652,27.49375 L28,6.91666667 L43.1304348,27.49375 L28,72.625 L12.8695652,27.49375 Z M45.2173913,34.2375 L51.4782609,64.325 L30.9565217,76.6020833 L45.2173913,34.2375 Z M4.52173913,64.325 L10.7826087,34.2375 L25.0434783,76.6020833 L4.52173913,64.325 Z" id="Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>

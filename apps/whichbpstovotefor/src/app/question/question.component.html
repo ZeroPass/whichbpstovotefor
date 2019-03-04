@@ -1,0 +1,21 @@
+<div class="question-container">
+
+  <div class="header-center"><a [href]="['/']">WHICH BLOCK PRODUCER TO VOTE FOR</a></div>
+  <div class="header-button" (click)="goClose()">START OVER</div>
+
+  <h3 class="question-title" *ngIf="isDataAvailable == true" [innerHTML]="title"></h3>
+
+  <div id="question-content" *ngIf="isDataAvailable == true">
+    <div class="question-desc" [innerHTML]="content"></div>
+
+    <div class="question-button-group">
+      <button #yes class="response-button" [class.active]="oldResponse == yes.value" value="1" (click)="onResponseSelected(yes.value)">YES</button>
+      <button #no class="response-button" [class.active]="oldResponse == no.value" value="0" (click)="onResponseSelected(no.value)">NO</button>
+      <button #notsure class="response-button" [class.active]="oldResponse == notsure.value" value="255" (click)="onResponseSelected(notsure.value)">NOT
+        SURE</button>
+    </div>
+  </div>
+
+  <div id="back-button" (click)="goBack()" *ngIf="id != 1"><i class="far fa-chevron-left"></i>Back</div>
+
+</div>

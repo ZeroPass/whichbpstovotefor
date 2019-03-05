@@ -7,7 +7,7 @@ import { Observable, throwError } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { Vote } from "./model/vote.model";
 
-const port = process.env.PORT || 3333;
+let port = process.env.PORT || 3333;
 
 @Injectable()
 export class DataServiceImpl implements DataService {

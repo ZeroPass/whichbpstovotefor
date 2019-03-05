@@ -2,12 +2,14 @@ import Producer from "../models/producersModel";
 import Proposal from "../models/proposalsModel";
 import * as matcher from "../services/matcher";
 import { eosfetch } from "../services/eosblockchain";
+import { sortByKey } from "../helpers/util";
 
 // Fetches proposals
 export function getProposals(req, res) {
   Proposal.find()
     .exec()
-    .then(proposals => {
+    .then(response => {
+      let proposals = sortByKey(response, "name");
       res.status(200).json(proposals);
     })
     .catch(err => {
@@ -55,7 +57,6 @@ export async function getBPResponses(req, res) {
     .votes(blockProducerAccount.account)
     .then(responses => {
       var result = JSON.parse(responses);
-
       // TODO: Improve this
       // Create empty response object to fill responses from the chain
       var surveyResponses = { "rows": [] };

@@ -87,7 +87,9 @@ export async function createProducersList() {
             producer.save().catch(error => console.log(error));
           } else {
             Producer.update(
-              {},
+              {
+                account: bp.account
+              },
               {
                 $set: {
                   votes: bp.vote_count,
@@ -114,6 +116,7 @@ export async function createProposalsList() {
   try {
     var result = await eosBlockChain.eosfetch.proposals();
     result = JSON.parse(result);
+
     for (let i = 0; i < result.rows.length; i++) {
       let prop = result.rows[i];
       // Check to see if the record already exists, we only want to add unique records
@@ -129,7 +132,9 @@ export async function createProposalsList() {
             proposal.save().catch(error => console.log(error));
           } else {
             Proposal.update(
-              {},
+              {
+                name: prop.proposal_name
+              },
               {
                 $set: {
                   title: prop.title,

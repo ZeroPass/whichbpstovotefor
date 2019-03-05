@@ -9,17 +9,16 @@ import * as cors from 'cors';
 import { environment } from './environments/environment';
 
 const app = express();
+
 let port = process.env.PORT || 3333;
 
 class Server {
-
   constructor() {
     this.initExpressMiddleware();
     this.initDB();
     this.initRoutes();
     this.start();
   }
-
   start() {
     app.listen(port, (err) => {
       if (err) {

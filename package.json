@@ -22,8 +22,7 @@
     "dep-graph": "./node_modules/.bin/nx dep-graph",
     "workspace-schematic": "./node_modules/.bin/nx workspace-schematic",
     "help": "./node_modules/.bin/nx help",
-    "postinstall": "node patch.js",
-    "heroku-postbuild": "ng build --prod && ng build api --prod"
+    "postinstall": "node patch.js"
   },
   "private": true,
   "dependencies": {

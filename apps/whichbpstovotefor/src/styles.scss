@@ -284,6 +284,15 @@ body {
   cursor: pointer;
 }
 
+#progress {
+  grid-column-start: 5;
+  grid-row-start: 4;
+  justify-self: end;
+  align-self: center;
+  color: $color-gray;
+  font-size: 14px;
+}
+
 @media (hover: hover) {
   #back-button:hover {
     color: $color-purple;

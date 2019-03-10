@@ -20,8 +20,8 @@ export class QuestionComponent implements OnInit, OnDestroy {
   isDataAvailable: boolean;
   currentResponse: any;
   oldResponse: string;
+  proposals: Proposal[];
 
-  private proposals: Proposal[];
   private name: string;
   private title: string;
   private content: any;

@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
 })
 
 export class AppComponent {
-  title = 'WHICH BLOCK PRODUCER TO VOTE FOR?';
+  title = 'WHICH BLOCK PRODUCERS TO VOTE FOR?';
 }

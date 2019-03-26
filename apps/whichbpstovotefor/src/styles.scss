@@ -207,6 +207,8 @@ body {
 
 @media (max-width: 800px) {
   #question-content {
+    min-height: initial;
+    max-height: initial;
     grid-template-columns: 1fr;
     grid-template-areas: 
     "q-desc"
@@ -245,51 +247,22 @@ body {
   cursor: pointer;
 }
 
-@media (max-width: 800px) {
-  #next-button {
-    align-self: baseline;
-  }
-}
-
-#next-button {
-  grid-column-start: 5;
-  grid-row-start: 4;
+#back-button {
+  grid-column-start: 1;
+  grid-row-start: 1;
   justify-self: end;
   align-self: center;
-  color: $color-gray;
-  font-size: 14px;
-  cursor: default;
-}
-
-@media (hover: hover) {
-  #next-button:hover {
-    color: $color-purple;
-  }
-}
-
-@media (max-width: 800px) {
-  #next-button {
-    align-self: baseline;
-    color: $color-purple;
-  }
-}
-
-#back-button {
-  grid-column-start: 2;
-  grid-row-start: 4;
-  justify-self: start;
-  align-self: center;
-  color: $color-gray;
+  color: $color-purple;
   font-size: 14px;
   cursor: pointer;
 }
 
 #progress {
-  grid-column-start: 5;
-  grid-row-start: 4;
-  justify-self: end;
+  grid-column-start: 6;
+  grid-row-start: 1;
+  justify-self: start;
   align-self: center;
-  color: $color-gray;
+  color: $color-purple;
   font-size: 14px;
 }
 
@@ -301,14 +274,22 @@ body {
 
 @media (max-width: 800px) {
   #back-button {
-    align-self: baseline;
+    justify-self: end;
     color: $color-purple;
+  }
+
+  #progress {
+    justify-self: start;
   }
 }
 
 @media (max-width: 480px) {
   #back-button {
     grid-column-start: 1;
+  }
+
+  #progress {
+    grid-column-start: 6;
   }
 }
 
@@ -350,6 +331,13 @@ body {
     &:focus {
       color: lighten($color-purple, 10%);
     }
+  }
+}
+
+@media (max-width: 800px) {
+  .question-desc {
+    padding-left: 70px;
+    padding-right: 70px;
   }
 }
 

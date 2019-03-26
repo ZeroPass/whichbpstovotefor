@@ -1,7 +1,10 @@
 <div class="question-container">
 
   <div class="header-center"><a [href]="['/']">WHICH BLOCK PRODUCERS TO VOTE FOR</a></div>
-  <div class="header-button" (click)="goClose()">START OVER</div>
+
+  <div id="back-button" (click)="goBack()" *ngIf="id != 1"><i class="far fa-chevron-left"></i>Back</div>
+
+  <div id="progress">{{ id }}/{{ proposals.length }}</div>
 
   <h3 class="question-title" *ngIf="isDataAvailable == true" [innerHTML]="title"></h3>
 
@@ -15,9 +18,5 @@
         SURE</button>
     </div>
   </div>
-
-  <div id="back-button" (click)="goBack()" *ngIf="id != 1"><i class="far fa-chevron-left"></i>Back</div>
-
-  <div id="progress">{{ id }}/{{ proposals.length }}</div>
 
 </div>

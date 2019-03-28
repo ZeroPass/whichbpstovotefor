@@ -3,7 +3,7 @@ import { Observable, from, throwError } from "rxjs";
 
 import ScatterJS from 'scatterjs-core';
 import ScatterEOS from 'scatterjs-plugin-eosjs';
-import Eos from 'eosjs';
+import * as Eos from 'eosjs';
 import { Vote } from "./model/vote.model";
 import { switchMap, map } from "rxjs/operators";
 import { network, contractName } from 'apps/whichbpstovotefor/src/environments/environment';

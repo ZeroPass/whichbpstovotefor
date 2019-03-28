@@ -1,7 +1,7 @@
 import * as request from 'request-promise';
 import { environment } from '../environments/environment';
 import BigNumber from 'bignumber.js';
-import Eos from 'eosjs';
+import * as Eos from 'eosjs';
 import * as BigInt from 'big-integer';
 
 const EOS_NODE_URL = environment.EOS_NODE_URL;
@@ -81,9 +81,10 @@ export const eosfetch = {
  * @param name
  */
 function createBounds(name) {
-  let ENCODED_NAME = new BigNumber(Eos.modules.format.encodeName(name, false));
-  let lowerBound = ENCODED_NAME.toString();
-  let upperBound = ENCODED_NAME.plus(1).toString();
+  //let ENCODED_NAME = new BigNumber(Eos.modules.format.encodeName(name, false));
+  console.log("calculating....");
+  let lowerBound = "voter4survey"; //ENCODED_NAME.toString();
+  let upperBound = "voter4survez"; //ENCODED_NAME.plus(1).toString();
   return {
     'lowerBound': lowerBound,
     'upperBound': upperBound

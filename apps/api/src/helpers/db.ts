@@ -1,8 +1,9 @@
-import * as eosBlockChain from "../services/eosblockchain";
-import Producer from "../models/producersModel";
-import Proposal from "../models/proposalsModel";
-import BPResponse from "../models/responseModel";
-import { environment } from "../environments/environment";
+import * as eosBlockChain from '../services/eosblockchain';
+import Producer from '../models/producersModel';
+import Proposal from '../models/proposalsModel';
+import BPResponse from '../models/responseModel';
+import * as ProposalTopList from '../helpers/proposalTopList';
+import {environment} from '../environments/environment';
 
 /**
  * Creates a new Producer record object
@@ -21,7 +22,7 @@ export function newProducer(
   });
 }
 
-/** 
+/**
  * Creates a new Proposal record object
  */
 export function newProposal(
@@ -39,11 +40,11 @@ export function newProposal(
 }
 
 /**
- * 
+ *
  * Fetches a list of known block producers and adds them to the database
- * @param bpName 
- * @param bpUrl 
- * @param bpResponse 
+ * @param bpName
+ * @param bpUrl
+ * @param bpResponse
  */
 export function newResponse(
   bpName,
@@ -59,7 +60,7 @@ export function newResponse(
   });
 }
 
-/** 
+/**
  * Fetches a list of known block producers and adds them to the database
  */
 export async function createProducersList() {
@@ -72,10 +73,10 @@ export async function createProducersList() {
         bp.name = bp.account;
       }
       if (bp.url == null) {
-        bp.url = "";
+        bp.url = '';
       }
       // Check to see if the record already exists, we only want to add unique records
-      Producer.findOne({ account: bp.account }, function (error, exists) {
+      Producer.findOne({account: bp.account}, function (error, exists) {
         if (!error) {
           if (!exists) {
             var producer = newProducer(
@@ -109,18 +110,99 @@ export async function createProducersList() {
   }
 }
 
-/** 
+////////////////////////////////////////////
+/*var url = 'http://s3.amazonaws.com/api.eosvotes.io/eosvotes/tallies/latest.json';
+request.get({
+    url: url,
+    json: true,
+    headers: {'User-Agent': 'request'}
+}, (err, res, data) => {
+    if (err) {
+        console.log('Error:', err);
+    } else if (res.statusCode !== 200) {
+        console.log('Status:', res.statusCode);
+    } else {
+        //console.log(data);
+        //list of top 6 proposals (number of votes)
+        //var top = new TopList(6);
+        for (var key in data) {
+            //check if item is in the top 6
+            console.log(data[key]["stats"]["votes"]["total"]);
+            //top.add(data[key], data[key]["stats"]["votes"]["total"])
+        }
+
+        //top.writeTofile("", "top6proposals.json", top.toJson());
+
+    }
+});
+*/
+
+////////////////////////////////////////////
+
+
+/**
  * Fetches proposals from the smart contract and adds them to the database
  */
 export async function createProposalsList() {
   try {
+    //var topProposals = await ProposalTopList.getTop()
+    ProposalTopList.getTop((success, data) => {
+      if (!success) {
+        console.log('Error:', data['description']);
+      }
+      else {
+          Proposal.deleteMany({}, function(error)
+          {
+            if (error)
+            {
+              console.log("Error occured: ", error)
+            }
+            console.log("Delete all");
+          });
+
+        for (var j = 0; j < data['toplist'].length; j++) {
+          let prop = data['toplist'][j];
+          // Check to see if the record already exists, we only want to add unique records
+          Proposal.findOne({name: prop['proposal_name']}, function (error, exists) {
+            if (!error) {
+              if (!exists) {
+                var proposal = newProposal(
+                  prop['proposal_name'],
+                  prop['proposer'],
+                  prop['title'],
+                  prop['proposal_json']
+                );
+                proposal.save().catch(error => console.log(error));
+              } else {
+                Proposal.update(
+                  {
+                    name: prop['proposal_name']
+                  },
+                  {
+                    $set: {
+                      title: prop['title'],
+                      content: prop['proposal_json']
+                    }
+                  }
+                ).catch(error => console.log(error));
+              }
+            } else {
+              console.log('Error: ' + error);
+              return;
+            }
+          });
+        }
+      }
+    });
+    // previous code
+    /*
     var result = await eosBlockChain.eosfetch.proposals();
     result = JSON.parse(result);
 
     for (let i = 0; i < result.rows.length; i++) {
       let prop = result.rows[i];
       // Check to see if the record already exists, we only want to add unique records
-      Proposal.findOne({ name: prop.proposal_name }, function (error, exists) {
+      Proposal.findOne({name: prop.proposal_name}, function (error, exists) {
         if (!error) {
           if (!exists) {
             var proposal = newProposal(
@@ -148,27 +230,27 @@ export async function createProposalsList() {
           return;
         }
       });
-    }
+    }*/
   } catch (e) {
     console.log("Error: " + e);
   }
 }
 
-/** 
+/**
  * Fetches existing block producer's proposal responses and adds them to the database
  */
 export async function createResponseList() {
 
   // Fetch the list of proposals from the db
-  var surveyProposals = await Proposal.find({}, { name: 1 });
-  var proposals = []
+  var surveyProposals = await Proposal.find({}, {name: 1});
+  var proposals = [];
   for (let i = 0; i < surveyProposals.length; i++) {
     proposals.push(surveyProposals[i].name);
   }
 
   if (environment.production) {
     // Fetch Block Producer list from the database
-    var blockProducers = await Producer.find({}, { name: 1, account: 1, url: 1 });
+    var blockProducers = await Producer.find({}, {name: 1, account: 1, url: 1});
   } else {
     // Block Producer list from Kylin testnet
     var blockProducers = environment.BLOCK_PRODUCER_TEST_LIST;
@@ -183,17 +265,17 @@ export async function createResponseList() {
       var result = await eosBlockChain.eosfetch.votes(bp.account);
       votes = JSON.parse(result);
     } catch (e) {
-      console.log("Error fetching data for " + bp.account + " : " + e);
+      console.log('Error fetching data for ' + bp.account + ' : ' + e);
     }
     // Iterate through the votes responses and build the response string
     let responseString = getResponse(votes, proposals);
     // Check if BP Response object exists, if so update, if not create new object
     // and add to the database
-    let exists = await BPResponse.count({ account: bp.account });
+    let exists = await BPResponse.count({account: bp.account});
     if (exists > 0) {
       // Update existing record
       BPResponse.updateOne(
-        { account: bp.account },
+        {account: bp.account},
         {
           $set: {
             response: responseString
@@ -220,7 +302,7 @@ export function populate() {
 /**
  * A helper function to create a string which represents the reponses
  * for each Block Producer
- * @param votesData 
+ * @param votesData
  * @param proposals
  */
 function getResponse(votesData, proposals) {
@@ -230,7 +312,7 @@ function getResponse(votesData, proposals) {
     let question = votesData.rows[i].proposal_name;
     if (proposals.indexOf(question) > -1) {
       let vote = votesData.rows[i].vote;
-      response.push({ "name": question, "value": vote.toString() })
+      response.push({'name': question, 'value': vote.toString()});
     }
   }
   return JSON.stringify(response);

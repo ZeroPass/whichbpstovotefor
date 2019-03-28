@@ -3,6 +3,10 @@ import Proposal from "../models/proposalsModel";
 import * as matcher from "../services/matcher";
 import { eosfetch } from "../services/eosblockchain";
 import { sortByKey } from "../helpers/util";
+import * as ProposalTopList from '../helpers/proposalTopList';
+
+import * as db from "../helpers/db"
+
 
 // Fetches proposals
 export function getProposals(req, res) {
@@ -10,6 +14,7 @@ export function getProposals(req, res) {
     .exec()
     .then(response => {
       let proposals = sortByKey(response, "name");
+      console.log(proposals);
       res.status(200).json(proposals);
     })
     .catch(err => {
@@ -44,6 +49,7 @@ export async function getVotes(req, res) {
 
 // Fetches respionses for a specific block producer
 export async function getBPResponses(req, res) {
+  console.log("test test test");
   let blockProducerAccount = req.body;
 
   // Fetch Proposal names

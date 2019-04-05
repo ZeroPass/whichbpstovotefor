@@ -1,22 +1,28 @@
-<div class="question-container">
+<div style="
+  margin: 40px auto;
+  max-width: 1140px;
+">
 
-  <div class="header-center"><a [href]="['/']">WHICH BLOCK PRODUCERS TO VOTE FOR</a></div>
+  <div class="question-wrapper">
 
-  <div id="back-button" (click)="goBack()" *ngIf="id != 1"><i class="far fa-chevron-left"></i>Back</div>
+    <div id="back-btn" (click)="goBack()" *ngIf="id != 1"><i class="far fa-chevron-left"></i>Back</div>
+    <div id="header-title"><a [href]="['/']">WHICH BLOCK PRODUCERS TO VOTE FOR</a></div>
+    <div id="progress-count">{{ id }}/{{ proposals.length }}</div>
 
-  <div id="progress">{{ id }}/{{ proposals.length }}</div>
+    <h3 id="question-title" *ngIf="isDataAvailable == true" [innerHTML]="title"></h3>
 
-  <h3 class="question-title" *ngIf="isDataAvailable == true" [innerHTML]="title"></h3>
-
-  <div id="question-content" *ngIf="isDataAvailable == true">
-    <div class="question-desc" [innerHTML]="content"></div>
-
-    <div class="question-button-group">
-      <button #yes class="response-button" [class.active]="oldResponse == yes.value" value="1" (click)="onResponseSelected(yes.value)">YES</button>
-      <button #no class="response-button" [class.active]="oldResponse == no.value" value="0" (click)="onResponseSelected(no.value)">NO</button>
-      <button #notsure class="response-button" [class.active]="oldResponse == notsure.value" value="255" (click)="onResponseSelected(notsure.value)">NOT
-        SURE</button>
+    <div class="response-btn-wrapper">
+      <div class="response-btn-group">
+        <button #yes class="response-button" [class.active]="oldResponse == yes.value" value="1"
+          (click)="onResponseSelected(yes.value)">YES</button>
+        <button #no class="response-button" [class.active]="oldResponse == no.value" value="0"
+          (click)="onResponseSelected(no.value)">NO</button>
+        <button #notsure class="response-button" [class.active]="oldResponse == notsure.value" value="255"
+          (click)="onResponseSelected(notsure.value)">NOT SURE</button>
+      </div>
     </div>
-  </div>
 
+    <div id="question-description" [innerHTML]="content"></div>
+
+  </div>
 </div>

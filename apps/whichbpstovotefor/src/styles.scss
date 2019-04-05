@@ -178,6 +178,72 @@ body {
 }
 
 // Question Component
+.question-wrapper {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 1fr 1fr 1fr auto;
+
+  #header-title {
+    grid-column: span 10; 
+    grid-column-start: 2; 
+    grid-column-end: 12;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1.15px;
+    cursor: pointer;
+    color: $color-gray;
+
+    a {
+      text-decoration: none;
+      color: $color-gray;
+    }
+  }
+
+  #back-btn {
+    color: $color-purple;
+    font-size: 14px;
+    cursor: pointer;
+    grid-column: span 1;
+  }
+
+  #progress-count {
+    color: $color-purple;
+    font-size: 14px;
+    grid-column: span 1;
+    text-align: right;
+  }
+
+  #question-title {
+    grid-column: span 12; 
+    text-align: center
+  }
+
+  .response-btn-wrapper {
+    grid-column: span 12;
+
+    .response-btn-group {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: 1fr;
+
+      button {
+        grid-column: span 4;
+      }
+
+    }
+
+  }
+
+  #question-description {
+    grid-column: span 12; margin-top: 20px;
+  }
+
+}
+
+
+
+
 .question-container {
   min-height: 90%;
   display: grid;
@@ -359,8 +425,7 @@ body {
 
 .response-button, .response-button:focus {
   height: 44px;
-  width: 312px;
-  margin-bottom: 10px;
+  margin: 10px;
   border-radius: 5px;
   border: $color-purple solid 0.5px;
   background-color: transparent;
@@ -371,7 +436,6 @@ body {
 
 .response-button:hover, .response-button:active, .response-button.active {
   height: 44px;
-  width: 312px;
   border-radius: 5px;
   border: $color-purple solid 0.5px;
   background-color: $color-purple;

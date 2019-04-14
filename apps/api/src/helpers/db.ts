@@ -110,36 +110,6 @@ export async function createProducersList() {
   }
 }
 
-////////////////////////////////////////////
-/*var url = 'http://s3.amazonaws.com/api.eosvotes.io/eosvotes/tallies/latest.json';
-request.get({
-    url: url,
-    json: true,
-    headers: {'User-Agent': 'request'}
-}, (err, res, data) => {
-    if (err) {
-        console.log('Error:', err);
-    } else if (res.statusCode !== 200) {
-        console.log('Status:', res.statusCode);
-    } else {
-        //console.log(data);
-        //list of top 6 proposals (number of votes)
-        //var top = new TopList(6);
-        for (var key in data) {
-            //check if item is in the top 6
-            console.log(data[key]["stats"]["votes"]["total"]);
-            //top.add(data[key], data[key]["stats"]["votes"]["total"])
-        }
-
-        //top.writeTofile("", "top6proposals.json", top.toJson());
-
-    }
-});
-*/
-
-////////////////////////////////////////////
-
-
 /**
  * Fetches proposals from the smart contract and adds them to the database
  */
@@ -240,10 +210,13 @@ export async function createProposalsList() {
 export async function createResponseList() {
 
   // Fetch the list of proposals from the db
-  var surveyProposals = await Proposal.find({}, { name: 1 });
+  var surveyProposals = await Proposal.find({}, { name: 1, title: 1 });
   var proposals = [];
   for (let i = 0; i < surveyProposals.length; i++) {
-    proposals.push(surveyProposals[i].name);
+    proposals.push({
+      "name": surveyProposals[i].name,
+      "title": surveyProposals[i].title
+    });
   }
 
 
@@ -304,16 +277,14 @@ function getResponse(votesData, proposals) {
 
   // Populate proposals object with null values
   proposals.forEach(function (proposal) {
-    response.push({ 'name': proposal, 'value': 'null' });
+    response.push({ 'name': proposal.name, 'title': proposal.title, 'value': 'null' });
   });
-
 
   // Loop through the BPs Response data
   for (let i = 0; i < votesData.rows.length; i++) {
     let question = votesData.rows[i].proposal_name;
     // Check in the BPs response if they answered one of the proposals in the db
-    if (proposals.indexOf(question) > -1) {
-
+    if (proposals.some(p => p.name === question)) {
       let vote = votesData.rows[i].vote;
       response.forEach(function (x) {
         if (x.name == question) {
@@ -322,8 +293,6 @@ function getResponse(votesData, proposals) {
       });
     }
   }
-
-
   return JSON.stringify(response);
 }
 

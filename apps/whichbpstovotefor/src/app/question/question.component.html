@@ -4,13 +4,10 @@
 ">
 
   <div class="question-wrapper">
-
     <div id="back-btn" (click)="goBack()" *ngIf="id != 1"><i class="far fa-chevron-left"></i>Back</div>
     <div id="header-title"><a [href]="['/']">WHICH BLOCK PRODUCERS TO VOTE FOR</a></div>
     <div id="progress-count">{{ id }}/{{ proposals.length }}</div>
-
-    <h3 id="question-title" *ngIf="isDataAvailable == true" [innerHTML]="title"></h3>
-
+    <h2 id="question-title" *ngIf="isDataAvailable == true" [innerHTML]="title"></h2>
     <div class="response-btn-wrapper">
       <div class="response-btn-group">
         <button #yes class="response-button" [class.active]="oldResponse == yes.value" value="1"
@@ -21,8 +18,7 @@
           (click)="onResponseSelected(notsure.value)">NOT SURE</button>
       </div>
     </div>
-
     <div id="question-description" [innerHTML]="content"></div>
-
   </div>
+
 </div>

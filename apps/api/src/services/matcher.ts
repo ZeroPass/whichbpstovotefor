@@ -38,6 +38,9 @@ var sortByProperty = (property) => {
  * Helper function to create responses object
  */
 function generateComparable(responses) {
+
+  console.log(responses);
+
   let responseJSON = {};
   let sortedJSON = {};
   for (var key in responses) {

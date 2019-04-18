@@ -49,9 +49,8 @@ export async function getVotes(req, res) {
 
 // Fetches respionses for a specific block producer
 export async function getBPResponses(req, res) {
-  console.log("test test test");
-  let blockProducerAccount = req.body;
 
+  let blockProducerAccount = req.body;
   // Fetch Proposal names
   var surveyProposals = await Proposal.find({}, { name: 1 });
   var proposals = []
@@ -74,6 +73,9 @@ export async function getBPResponses(req, res) {
           surveyResponses.rows.push(result.rows[i]);
         }
       }
+
+      console.log(surveyResponses);
+
       res.status(200).json(surveyResponses);
     })
     .catch(err => {

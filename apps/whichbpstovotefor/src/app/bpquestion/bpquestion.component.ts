@@ -8,6 +8,10 @@ import { Subscription, forkJoin } from 'rxjs';
 import { ResponseDataService } from '../shared/response.data.service';
 import { ScatterService } from '../shared/scatter.service';
 import { environment } from 'apps/whichbpstovotefor/src/environments/environment';
+import { log } from 'util';
+import { log } from 'util';
+import { log } from 'util';
+import { log } from 'util';
 
 const showdown = require('showdown');
 
@@ -70,13 +74,28 @@ export class BPQuestionComponent implements OnInit, OnDestroy {
             throw new Error("Proposals undefined");
           }
 
+          // todo - improve logic here to remove the empty object creation for both the original responses and new responses objects
+          // Create empty original response object
+          for (let i = 0; i < this.proposals.length; i++) {
+            this.originalResponses.push({ "name": this.proposals[i].name, "value": null });
+            this.responses.push({ "name": this.proposals[i].name, "value": null });
+          }
+
+          // Check for any previously submitted responses
           if (votes !== undefined) {
             for (let i = 0; i < votes.length; i++) {
               this.currentResponse[votes[i].proposal_name] = votes[i].vote.toString();
-              this.responses[i] = { "name": votes[i].proposal_name, "value": votes[i].vote };
-              this.originalResponses[i] = { "name": votes[i].proposal_name, "value": votes[i].vote };
+              // Update original responses and responses based on recieved original responses
+              for (let j = 0; j < this.originalResponses.length; j++) {
+                if (this.originalResponses[j].name == votes[i].proposal_name) {
+                  this.originalResponses[j].value = votes[i].vote.toString();
+                  this.responses[j].value = votes[i].vote.toString();
+                }
+              }
             }
           }
+
+
         },
         error => {
           this.isDataLoading = false;

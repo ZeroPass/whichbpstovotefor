@@ -14,7 +14,10 @@
 
   <table id="result-table">
     <tr class="result-item" *ngFor="let result of results">
-      <td class="result-name">{{ result.name }}</td>
+      <td class="result-name">
+        <p>{{ result.name }} <span class="skipped" *ngIf="result.skipped > 0">(Skipped {{ result.skipped }} of 6)</span>
+        </p>
+      </td>
       <td class="result-score">
         <div #div class="score-bar">
           <div class="score-amount-100" *ngIf="result.match_score == 100">

@@ -38,9 +38,6 @@ var sortByProperty = (property) => {
  * Helper function to create responses object
  */
 function generateComparable(responses) {
-
-  console.log(responses);
-
   let responseJSON = {};
   let sortedJSON = {};
   for (var key in responses) {
@@ -65,12 +62,19 @@ export var match = async (data) => {
     let bp_data = bp[i]
     let bp_response = JSON.parse(bp_data.response);
     let score = getMatchScore(userResponse, bp_response);
+    let skipped = 0;
+    bp_response.forEach(resp => {
+      if (resp.value == "null") {
+        skipped++;
+      }
+    });
     matchResult.push({
       "name": bp_data.name,
       "url": bp_data.url,
       "bp_responses": bp_response,
-      "match_score": score
-    })
+      "match_score": score,
+      "skipped": skipped
+    });
   }
   return matchResult.sort(sortByProperty('match_score'));
 }

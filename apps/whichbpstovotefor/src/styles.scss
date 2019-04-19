@@ -522,6 +522,11 @@ body {
 .result-name {
   font-size: 14px;
   color: $color-main-text;
+
+  .skipped {
+    color: $color-gray;
+  }
+
 }
 
 .result-score {

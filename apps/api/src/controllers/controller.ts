@@ -14,7 +14,6 @@ export function getProposals(req, res) {
     .exec()
     .then(response => {
       let proposals = sortByKey(response, "name");
-      console.log(proposals);
       res.status(200).json(proposals);
     })
     .catch(err => {
@@ -73,9 +72,6 @@ export async function getBPResponses(req, res) {
           surveyResponses.rows.push(result.rows[i]);
         }
       }
-
-      console.log(surveyResponses);
-
       res.status(200).json(surveyResponses);
     })
     .catch(err => {

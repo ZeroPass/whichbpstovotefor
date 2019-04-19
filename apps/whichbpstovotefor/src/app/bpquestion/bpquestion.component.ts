@@ -9,9 +9,6 @@ import { ResponseDataService } from '../shared/response.data.service';
 import { ScatterService } from '../shared/scatter.service';
 import { environment } from 'apps/whichbpstovotefor/src/environments/environment';
 import { log } from 'util';
-import { log } from 'util';
-import { log } from 'util';
-import { log } from 'util';
 
 const showdown = require('showdown');
 

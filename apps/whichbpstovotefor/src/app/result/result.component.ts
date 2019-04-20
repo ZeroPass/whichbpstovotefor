@@ -16,12 +16,14 @@ export class ResultComponent implements OnInit {
   results: Result[];
   isDataLoading: boolean;
 
+  private hidden: any;
   private getAllResultsSub: Subscription;
 
   constructor(private router: Router, private service: DataService, private responseService: ResponseDataService) {
     this.service = service;
     this.responseService = responseService;
     this.isDataLoading = false;
+    this.hidden = [];
   }
 
   ngOnInit() {
@@ -52,6 +54,10 @@ export class ResultComponent implements OnInit {
 
   goHome() {
     this.router.navigateByUrl('');
+  }
+
+  toggleHidden(i: string) {
+    this.hidden[i] = !this.hidden[i]
   }
 
 }

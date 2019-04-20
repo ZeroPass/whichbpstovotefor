@@ -1,11 +1,7 @@
-<div style="
-  margin: 40px auto;
-  max-width: 1140px;
-">
-
+<div class="survey-content-container">
   <div class="question-wrapper">
     <div id="back-btn" (click)="goBack()" *ngIf="id != 1"><i class="far fa-chevron-left"></i>Back</div>
-    <div id="header-title"><a [href]="['/']">WHICH BLOCK PRODUCERS TO VOTE FOR</a></div>
+    <div class="header-title"><a [href]="['/']">WHICH BLOCK PRODUCERS TO VOTE FOR</a></div>
     <div id="progress-count">{{ id }}/{{ proposals.length }}</div>
     <h2 id="question-title" *ngIf="isDataAvailable == true" [innerHTML]="title"></h2>
     <div class="response-btn-wrapper">
@@ -20,5 +16,4 @@
     </div>
     <div id="question-description" [innerHTML]="content"></div>
   </div>
-
 </div>

@@ -1,36 +1,60 @@
-<div class="header-center"><a [href]="['/']">WHICH BLOCK PRODUCERS TO VOTE FOR</a></div>
+<div class="survey-content-container">
+  <div class="result-wrapper">
+    <div class="header-title"><a [href]="['/']">WHICH BLOCK PRODUCERS TO VOTE FOR</a></div>
+    <a id="vote" href="https://eos.chainrift.com/" target="_blank">
+      Vote ChainRift EOS</a>
+    <p class="sub-title">
+      Your matches:
+    </p>
+    <button id="restart-button" (click)="startOver()">START OVER</button>
+    <div class="result-list-loader" *ngIf="isDataLoading">
+      <span><i class="fas fa-spinner loader"></i></span>
+    </div>
 
-<div class="result-container">
+    <ul id="result-list" *ngIf="!isDataLoading">
+      <li class="collapsible" *ngFor="let result of results; let i = index">
+        <div class="result-item">
+          <i class="fal fa-angle-right" (click)="hidden[i] = !hidden[i]" *ngIf="!hidden[i]"></i>
+          <i class="fal fa-angle-down" (click)="hidden[i] = !hidden[i]" *ngIf="hidden[i]"></i>
+          <div class="result-name" (click)="hidden[i] = !hidden[i]">
+            {{ result.name }} <span class="skipped" *ngIf="result.skipped > 0">(skipped {{ result.skipped }}/6
+              questions)</span>
+          </div>
+          <div class="result-score">
+            <div #div class="score-bar">
+              <div class="score-amount-100" *ngIf="result.match_score == 100">
+                <span class="match">{{ result.match_score }}%</span>
+              </div>
+              <div class="score-amount" [style.width.px]="(result.match_score/100)*div.offsetWidth"
+                *ngIf="result.match_score != 100"></div>
+              <span class="match" *ngIf="result.match_score != 100">{{ result.match_score }}%</span>
+            </div>
+          </div>
 
-  <p class="sub-title">
-    Your match scores:
-  </p>
-
-  <button id="restart-button" (click)="startOver()">START OVER</button>
-
-  <div class="result-list-loader" *ngIf="isDataLoading">
-    <span><i class="fas fa-spinner loader"></i></span>
-  </div>
-
-  <table id="result-table">
-    <tr class="result-item" *ngFor="let result of results">
-      <td class="result-name">
-        <p>{{ result.name }} <span class="skipped" *ngIf="result.skipped > 0">(Skipped {{ result.skipped }} of 6)</span>
-        </p>
-      </td>
-      <td class="result-score">
-        <div #div class="score-bar">
-          <div class="score-amount-100" *ngIf="result.match_score == 100">
+          <div class="score-amount-only">
             <span class="match">{{ result.match_score }}%</span>
           </div>
-          <div class="score-amount" [style.width.px]="(result.match_score/100)*div.offsetWidth"
-            *ngIf="result.match_score != 100"></div>
-          <span class="match" *ngIf="result.match_score != 100">{{ result.match_score }}%</span>
-        </div>
-      </td>
-      <td class="result-link-td"><a class="result-link" [href]="result.url" target="_blank">Visit<i
-            class="far fa-chevron-right result-chev"></i></a></td>
-    </tr>
-  </table>
 
+          <div class="result-url">
+            <a class="result-link" [href]="result.url" target="_blank">Visit<i
+                class="fal fa-external-link result-chev"></i></a>
+          </div>
+
+        </div>
+        <div class="result-details" *ngIf="hidden[i]">
+          <ul>
+            <li class="result-bpresponse-details" *ngFor="let bpResponse of result.bp_responses">
+              <span class="result-bpresponse-details--question">{{bpResponse.title}} </span>
+              <span class="result-bpresponse-details--answer">
+                <span class="yes" *ngIf="bpResponse.value == '1'">Yes</span>
+                <span class="no" *ngIf="bpResponse.value == '0'">No</span>
+                <span class="not-sure" *ngIf="bpResponse.value == '255'">Not Sure</span>
+                <span class="skip" *ngIf="bpResponse.value == 'null'">Null</span>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
 </div>

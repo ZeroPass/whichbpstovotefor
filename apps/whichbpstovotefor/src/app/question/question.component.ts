@@ -21,10 +21,10 @@ export class QuestionComponent implements OnInit, OnDestroy {
   currentResponse: any;
   oldResponse: string;
   proposals: Proposal[];
+  content: any;
 
   private name: string;
   private title: string;
-  private content: any;
   private response: any[];
   private routeSub: Subscription;
   private getAllProposalsSub: Subscription

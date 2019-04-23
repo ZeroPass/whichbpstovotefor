@@ -17,8 +17,8 @@
           <i class="fal fa-angle-right" (click)="hidden[i] = !hidden[i]" *ngIf="!hidden[i]"></i>
           <i class="fal fa-angle-down" (click)="hidden[i] = !hidden[i]" *ngIf="hidden[i]"></i>
           <div class="result-name" (click)="hidden[i] = !hidden[i]">
-            {{ result.name }} <span class="skipped" *ngIf="result.skipped > 0">(skipped {{ result.skipped }}/6
-              questions)</span>
+            {{ result.name }} <span class="skipped" *ngIf="result.skipped > 0">(skipped
+              {{ result.skipped }}/{{ result.bp_responses.length }})</span>
           </div>
           <div class="result-score">
             <div #div class="score-bar">
@@ -48,8 +48,8 @@
               <span class="result-bpresponse-details--answer">
                 <span class="yes" *ngIf="bpResponse.value == '1'">Yes</span>
                 <span class="no" *ngIf="bpResponse.value == '0'">No</span>
-                <span class="not-sure" *ngIf="bpResponse.value == '255'">Not Sure</span>
-                <span class="skip" *ngIf="bpResponse.value == 'null'">Null</span>
+                <span class="not-sure" *ngIf="bpResponse.value == '255'">Not sure</span>
+                <span class="skip" *ngIf="bpResponse.value == 'null'">No response</span>
               </span>
             </li>
           </ul>

@@ -6,8 +6,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { Vote } from "./model/vote.model";
-
-let port = process.env.PORT || 3333;
+import { environment } from "../../environments/environment";
 
 @Injectable()
 export class DataServiceImpl implements DataService {
@@ -15,7 +14,7 @@ export class DataServiceImpl implements DataService {
   constructor(private http: HttpClient) { }
 
   getAllProposals(): Observable<Proposal[]> {
-    return this.http.get<Proposal[]>("http://localhost:" + port + "/api/proposals")
+    return this.http.get<Proposal[]>(environment.URL + "/api/proposals")
       .pipe(map(response => {
         let proposals = [];
         for (let i = 0; i < response.length; i++) {
@@ -27,12 +26,12 @@ export class DataServiceImpl implements DataService {
   }
 
   getAllResults(response: string[]): Observable<Result[]> {
-    return this.http.post<Result[]>("http://localhost:" + port + "/api/votes", response)
+    return this.http.post<Result[]>(environment.URL + "/api/votes", response)
       .pipe(catchError(e => throwError("Error - Unable to retrieve matching results " + e)));
   }
 
   getAllPreviousResponses(username: string): Observable<Vote[]> {
-    return this.http.post<Vote[]>("http://localhost:" + port + "/api/responses", { account: username })
+    return this.http.post<Vote[]>(environment.URL + "/api/responses", { account: username })
       .pipe(map(response => {
         let votes = [];
         for (let i = 0; i < response["rows"].length; i++) {

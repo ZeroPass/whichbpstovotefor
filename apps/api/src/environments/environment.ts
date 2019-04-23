@@ -1,5 +1,5 @@
 export const environment = {
-  production: true,
+  production: false,
   EOS_NODE_URL: 'https://api.eostitan.com/v1/chain/get_table_rows',
   PROPOSER: 'voter4survey',
   CONTRACT_NAME: 'eosio.forum',

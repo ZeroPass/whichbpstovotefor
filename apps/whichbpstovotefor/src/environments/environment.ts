@@ -1,5 +1,6 @@
 export const environment = {
-  production: true
+  production: false,
+  URL: "http://localhost:" + (process.env.PORT || 3333)
 };
 
 // ** EOS Mainnet **

@@ -10,8 +10,6 @@ import { environment } from './environments/environment';
 
 const app = express();
 
-let port = process.env.PORT || 3333;
-
 class Server {
   constructor() {
     this.initExpressMiddleware();
@@ -20,7 +18,7 @@ class Server {
     this.start();
   }
   start() {
-    app.listen(port, (err) => {
+    app.listen(environment.PORT, (err) => {
       if (err) {
         console.error(err);
       }
@@ -38,7 +36,7 @@ class Server {
         db.createProposalsList();
         db.createProducersList();
       })
-      console.log(`Listening at http://localhost:${port}`);
+      console.log('Listening at ' + environment.URL + ':' + environment.PORT);
     });
   }
 

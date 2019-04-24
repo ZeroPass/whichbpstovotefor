@@ -7,6 +7,5 @@ export const environment = {
   TABLE_NAME_PROPOSALS: 'proposal',
   TABLE_NAME_VOTES: 'vote',
   TABLE_NAME_PRODUCERS: 'producers',
-  URL: 'http://localhost',
-  PORT: process.env.PORT || 3333
+  PORT: process.env.PORT || 3333,
 };

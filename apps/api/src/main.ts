@@ -36,7 +36,6 @@ class Server {
         db.createProposalsList();
         db.createProducersList();
       })
-      console.log('Listening at ' + environment.URL + ':' + environment.PORT);
     });
   }
 

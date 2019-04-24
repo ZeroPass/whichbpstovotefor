@@ -71,7 +71,7 @@ body {
 
 @media all and (max-width: 480px) { 
   .main {
-    padding: 10px;
+    padding: 40px 20px;
   }
 
   .home-title {
@@ -119,6 +119,9 @@ body {
 @media (max-width: 480px) {
   .home-desc {
     grid-column: span 3;
+  }
+  .header-right {
+    display: none;
   }
 }
 
@@ -190,6 +193,12 @@ body {
 .survey-content-container {
   margin: 40px auto;
   max-width: 1140px;
+}
+
+@media (max-width: 1275px){
+  .survey-content-container {
+    margin: 40px;
+  }
 }
 
 @media (max-width: 480px){
@@ -604,6 +613,20 @@ body {
 
 }
 
+@media (max-width: 768px){
+  .result-wrapper {
+    .sub-title {
+      grid-column: span 8;
+    }
+    #restart-button {
+      grid-column: span 4;
+    }
+  }
+  #vote {
+    display: none;
+  }
+}
+
 @media (max-width: 480px){
   .result-wrapper {
     .sub-title {
@@ -740,9 +763,13 @@ body {
 
 .result-list-loader {
   grid-column: span 12;
-  color: $color-purple;
+  height: 200px;
+  padding-top: 100px;
+  grid-row: 12 / span 6;
+  grid-row: unset;
+  color: #7A8EE9;
   font-size: 30px;
-  justify-self: center
+  justify-self: center;
 }
 
 .result-details {

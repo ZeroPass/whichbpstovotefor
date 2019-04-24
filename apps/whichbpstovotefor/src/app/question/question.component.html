@@ -1,6 +1,7 @@
 <div class="survey-content-container">
   <div class="question-wrapper">
     <div id="back-btn" (click)="goBack()" *ngIf="id != 1"><i class="far fa-chevron-left"></i>Back</div>
+    <div id="home-btn" *ngIf="id == 1"><a [href]="['/']">Go Home</a></div>
     <div class="header-title"><a [href]="['/']">WHICH BLOCK PRODUCERS TO VOTE FOR</a></div>
     <div id="progress-count">{{ id }}/{{ proposals.length }}</div>
     <h2 id="question-title" *ngIf="isDataAvailable == true" [innerHTML]="title"></h2>

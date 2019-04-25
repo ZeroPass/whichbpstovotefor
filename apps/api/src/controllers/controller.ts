@@ -10,10 +10,11 @@ import * as db from "../helpers/db"
 
 // Fetches proposals
 export function getProposals(req, res) {
+  //ProposalTopList.getTop((success, data) => {}); just for testing
   Proposal.find()
     .exec()
     .then(response => {
-      let proposals = sortByKey(response, "name");
+      let proposals = sortByKey(response, "stakedEOS");
       res.status(200).json(proposals);
     })
     .catch(err => {

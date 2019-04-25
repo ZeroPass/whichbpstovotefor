@@ -29,13 +29,15 @@ export function newProposal(
   proposalName,
   proposerAccount,
   proposalTitle,
-  proposalContent
+  proposalContent,
+  stakedEos
 ) {
   return new Proposal({
     name: proposalName,
     proposer: proposerAccount,
     title: proposalTitle,
-    content: proposalContent
+    content: proposalContent,
+    stakedEOS: stakedEos
   });
 }
 
@@ -138,7 +140,8 @@ export async function createProposalsList() {
                   prop['proposal_name'],
                   prop['proposer'],
                   prop['title'],
-                  prop['proposal_json']
+                  prop['proposal_json'],
+                  prop['staked_eos']
                 );
                 proposal.save().catch(error => console.log(error));
               } else {

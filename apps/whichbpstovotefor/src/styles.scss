@@ -514,13 +514,15 @@ body {
   cursor: pointer;
 }
 
-.response-button:hover {
+.response-button:hover,
+.response-button.active  {
   height: 44px;
   border-radius: 5px;
   border: $color-purple solid 0.5px;
   background-color: $color-purple;
   color: white;
   outline: none;
+  cursor: pointer;
 }
 
 @media (max-width: 480px) {

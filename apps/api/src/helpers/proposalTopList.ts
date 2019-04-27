@@ -24,18 +24,18 @@ class TopList {
     if (value < this.lowestTopValue) {
       return false;
     }
-
-    this.array.push([value, item]);
+    item['proposal']['staked_eos'] = value;
+    this.array.push(item);
     var i = this.array.length - 1;
     item = this.array[i];
-    while (i > 0 && item[0] < this.array[i - 1][0]) {
+    while (i > 0 && item['proposal']['staked_eos'] < this.array[i - 1]['proposal']['staked_eos']) {
       this.array[i] = this.array[i - 1];
       i -= 1;
     }
     this.array[i] = item;
     this.array = this.array.slice(-6);
 
-    this.lowestTopValue = this.array[0][0];
+    this.lowestTopValue = this.array[0]['proposal']['staked_eos'];
     return true;
   }
 
@@ -46,12 +46,10 @@ class TopList {
     json[_DATETIME] = date.getTime();
     json[_TOPLIST] = [];
 
-    for (var j = 0; j < this.array.length; j++) {
-      var obj = this.array[j][1];
+    for (var j = this.array.length -1; j >= 0; j--) {
+      var obj = this.array[j];
       json[_TOPLIST].push(obj['proposal']);
     }
-    //console.log("Size of array", this.array.length);
-    //return JSON.stringify(json);
     return json;
   }
 

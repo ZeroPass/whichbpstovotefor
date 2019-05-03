@@ -10,6 +10,8 @@ const CONTRACT_NAME = environment.CONTRACT_NAME;
 const TABLE_NAME_PROPOSALS = environment.TABLE_NAME_PROPOSALS;
 const TABLE_NAME_VOTES = environment.TABLE_NAME_VOTES;
 
+const SYSTEM_CONTRACT_NAME = environment.SYSTEM_CONTRACT_NAME;
+
 export const eosfetch = {
   /**
    * Retrieves the current Block Producers and a list of Block Producer Candidates 
@@ -26,8 +28,6 @@ export const eosfetch = {
    * Retrieves a list of proposals based on the proposer account
    */
   proposals: function () {
-    // Create upper and lower bounds
-    let bounds = createBounds(PROPOSER);
     //set data to get proposals of specific account
     var dataString = '{"json":true,' +
       '"code":"' + CONTRACT_NAME + '",' +
@@ -35,8 +35,8 @@ export const eosfetch = {
       '"table":"' + TABLE_NAME_PROPOSALS + '",' +
       '"index_position":2,' +
       '"key_type":"i64",' +
-      '"lower_bound":"' + bounds.lowerBound + '",' +
-      '"upper_bound":"' + bounds.upperBound + '"' +
+      '"lower_bound":"' + PROPOSER + '",' +
+      '"upper_bound":"' + PROPOSER + '"' +
       '}';
     //settings
     var options = {
@@ -72,6 +72,27 @@ export const eosfetch = {
     };
     //send to the node
     return request(options);
+  },
+
+  proxy: function (bpAccount) {
+    //set data to get proposals of specific account
+    var dataString = '{"json":true,' +
+      '"code":"' + SYSTEM_CONTRACT_NAME + '",' +
+      '"scope":"' + SYSTEM_CONTRACT_NAME + '",' +
+      '"table":"' + "voters" + '",' +
+      '"index_position":1,' +
+      '"key_type":"i64",' +
+      '"lower_bound":"' + bpAccount + '",' +
+      '"upper_bound":"' + bpAccount + '"' +
+      '}';
+    //settings
+    var options = {
+      url: EOS_NODE_URL,
+      method: 'POST',
+      body: dataString
+    };
+    //send to the node
+    return request(options);
   }
 }
 
@@ -80,6 +101,7 @@ export const eosfetch = {
  * to fetch a list of proposals submitted by an account
  * @param name
  */
+//obsolete function - eos changed the upper bound...now it checks lower and the same value, not only lower value
 function createBounds(name) {
   //let ENCODED_NAME = new BigNumber(Eos.modules.format.encodeName(name, false));
   let lowerBound = "voter4survey"; //ENCODED_NAME.toString();

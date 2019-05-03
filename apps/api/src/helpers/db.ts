@@ -3,7 +3,6 @@ import Producer from '../models/producersModel';
 import Proposal from '../models/proposalsModel';
 import BPResponse from '../models/responseModel';
 import * as ProposalTopList from '../helpers/proposalTopList';
-import { environment } from '../environments/environment';
 
 /**
  * Creates a new Producer record object
@@ -222,23 +221,29 @@ export async function createResponseList() {
     });
   }
 
-
   var blockProducers = await Producer.find({}, { name: 1, account: 1, url: 1 });
 
   // Loop through the list of block producers
   for (var i = 0; i < blockProducers.length; i++) {
     var bp = blockProducers[i];
-    var votes;
+    var votesNonProxy;
+    var votesOnProxy = null;
     try {
       // Fetch all the votes made by the BP
       var result = await eosBlockChain.eosfetch.votes(bp.account);
-      votes = JSON.parse(result);
+      votesNonProxy = JSON.parse(result);
+      //if in votes is empty go to check if proxy vote exists
+      //next day continoue here please:)
+      var hasVoterProxy = await getProxyIfExists(bp.account);
+      if (hasVoterProxy != "") {
+        var resultProxyVotes = await eosBlockChain.eosfetch.votes(hasVoterProxy);
+        votesOnProxy = JSON.parse(resultProxyVotes);
+      }
     } catch (e) {
       console.log('Error fetching data for ' + bp.account + ' : ' + e);
     }
     // Iterate through the votes responses and build the response string
-    let responseString = getResponse(votes, proposals);
-
+    let responseString = getResponse(votesNonProxy, votesOnProxy, proposals);
     // Check if BP Response object exists, if so update, if not create new object
     // and add to the database
     let exists = await BPResponse.count({ account: bp.account });
@@ -275,7 +280,7 @@ export function populate() {
  * @param votesData
  * @param proposals
  */
-function getResponse(votesData, proposals) {
+function getResponse(votesDataNonProxy, votesDataProxy, proposals) {
   var response = [];
 
   // Populate proposals object with null values
@@ -283,12 +288,29 @@ function getResponse(votesData, proposals) {
     response.push({ 'name': proposal.name, 'title': proposal.title, 'value': 'null' });
   });
 
-  // Loop through the BPs Response data
-  for (let i = 0; i < votesData.rows.length; i++) {
-    let question = votesData.rows[i].proposal_name;
+  //if there are any data in proxy response
+  if (votesDataProxy != null && votesDataProxy.rows.length > 0){
+    // Loop through the BPs Response data on voted proxy
+    for (let i = 0; i < votesDataProxy.rows.length; i++) {
+      let question = votesDataProxy.rows[i].proposal_name;
+      // Check in the BPs response if they answered one of the proposals in the db
+      if (proposals.some(p => p.name === question)) {
+        let vote = votesDataProxy.rows[i].vote;
+        response.forEach(function (x) {
+          if (x.name == question) {
+            x.value = vote.toString()
+          }
+        });
+      }
+    }
+  }
+
+  // Loop through the BPs Response data - the answer on main account is more valuable (answer from proxy is overwritten)
+  for (let i = 0; i < votesDataNonProxy.rows.length; i++) {
+    let question = votesDataNonProxy.rows[i].proposal_name;
     // Check in the BPs response if they answered one of the proposals in the db
     if (proposals.some(p => p.name === question)) {
-      let vote = votesData.rows[i].vote;
+      let vote = votesDataNonProxy.rows[i].vote;
       response.forEach(function (x) {
         if (x.name == question) {
           x.value = vote.toString()
@@ -297,5 +319,20 @@ function getResponse(votesData, proposals) {
     }
   }
   return JSON.stringify(response);
+}
+
+export async function getProxyIfExists(bpAccount) {
+  try {
+    var result = await eosBlockChain.eosfetch.proxy(bpAccount);
+    result = JSON.parse(result);
+
+    if (result.rows.length == 0)
+      return '';
+
+    return result.rows[0].proxy;
+  } catch (e) {
+    return '';
+    console.log('Error: ' + e);
+  }
 }
 

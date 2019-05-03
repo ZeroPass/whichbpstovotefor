@@ -6,10 +6,11 @@ import { sortByKey } from "../helpers/util";
 import * as ProposalTopList from '../helpers/proposalTopList';
 
 import * as db from "../helpers/db"
+import {createResponseList} from '../helpers/db';
 
 
 // Fetches proposals
-export function getProposals(req, res) {
+export async function getProposals(req, res) {
   //ProposalTopList.getTop((success, data) => {}); just for testing
   Proposal.find()
     .exec()

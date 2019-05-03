@@ -105,7 +105,7 @@ export const eosfetch = {
 function createBounds(name) {
   //let ENCODED_NAME = new BigNumber(Eos.modules.format.encodeName(name, false));
   let lowerBound = "voter4survey"; //ENCODED_NAME.toString();
-  let upperBound = "voter4survez"; //ENCODED_NAME.plus(1).toString();
+  let upperBound = "voter4survey"; //ENCODED_NAME.plus(1).toString();
   return {
     'lowerBound': lowerBound,
     'upperBound': upperBound

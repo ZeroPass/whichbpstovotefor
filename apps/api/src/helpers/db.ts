@@ -95,7 +95,8 @@ export async function createProducersList() {
               {
                 $set: {
                   votes: bp.vote_count,
-                  url: bp.website
+                  url: bp.website,
+                  name:bp.name
                 }
               }
             ).catch(error => console.log(error));

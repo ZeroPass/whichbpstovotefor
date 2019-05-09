@@ -254,7 +254,9 @@ export async function createResponseList() {
         { account: bp.account },
         {
           $set: {
-            response: responseString
+            response: responseString,
+            name: bp.name,
+            url: bp.url
           }
         }
       ).catch(error => console.log(error));
